@@ -26,7 +26,7 @@ public class Role {
     @Column(nullable = false)
     private String main;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     private List<UserRole> userRole;
 
 

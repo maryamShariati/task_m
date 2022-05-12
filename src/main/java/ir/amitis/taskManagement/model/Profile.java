@@ -30,7 +30,7 @@ public class Profile {
     @Column(nullable = false)
     private Date birthday;
     @Column(columnDefinition = "varchar(11)")
-    private String phoneNumber;
+    private String MobileNumber;
     private boolean deleted;
 
     @OneToOne(optional = false)
@@ -42,7 +42,7 @@ public class Profile {
         Profile profile=new Profile();
         profile.setName(profileDto.name());
         profile.setSurname(profileDto.surname());
-        profile.setSex(Sex.valueOf(profileDto.sex()));
+        profile.setSex((profileDto.sex()));
         profile.setBirthday(profileDto.birthday());
         return profile;
     }
