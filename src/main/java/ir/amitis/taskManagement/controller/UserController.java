@@ -1,6 +1,7 @@
 package ir.amitis.taskManagement.controller;
 
 import ir.amitis.taskManagement.dto.PasswordDto;
+import ir.amitis.taskManagement.dto.UserDto;
 import ir.amitis.taskManagement.dto.UserSaveDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.service.UserService;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -35,6 +38,12 @@ public class UserController {
     public void updatePassword(@PathVariable Long id, @RequestBody @Valid PasswordDto newPassword)
             throws RecordNotFoundException {
         userService.updatePassword(id,newPassword );
+    }
+
+    @GetMapping
+    @ResponseBody
+    public List<UserDto>getAllUsername(){
+        return userService.getAllUsername().stream().map(user -> new UserDto(user.getUsername())).collect(Collectors.toList());
     }
 
 

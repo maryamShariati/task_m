@@ -1,5 +1,6 @@
 package ir.amitis.taskManagement.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ir.amitis.taskManagement.model.Priority;
 import ir.amitis.taskManagement.model.Task;
@@ -29,6 +30,7 @@ public record TaskGetDto(
         @JsonProperty("type") List<TaskType> types,
 
         @FutureOrPresent
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
         @JsonProperty("creatAt") LocalDateTime creatAt
 ) {
         public TaskGetDto(String name, String subject, Priority priority, String description,
