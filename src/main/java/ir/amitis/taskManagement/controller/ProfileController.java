@@ -1,10 +1,13 @@
 package ir.amitis.taskManagement.controller;
 
-import ir.amitis.taskManagement.dto.NameDto;
+
 import ir.amitis.taskManagement.dto.ProfileDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
+import ir.amitis.taskManagement.model.Profile;
 import ir.amitis.taskManagement.service.ProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +24,7 @@ public class ProfileController {
         profileService.save(profileDto);
     }
     @DeleteMapping("/delete/{id}")
+
     public void deleteById(@PathVariable Long id){
         profileService.deleteProfileById(id);
     }
@@ -31,10 +35,16 @@ public class ProfileController {
     public List<ProfileDto> getAllProfile() throws RecordNotFoundException {
         return profileService.getAllProfile();
     }
+    @GetMapping("/{id}")
+    @Validated
+    public ResponseEntity<Profile> getProfileByID(@PathVariable Long id) throws RecordNotFoundException {
+        Profile profile = profileService.getProfileById( id );
+        return ResponseEntity.ok().body( profile );
+    }
 
-    @PutMapping("/update/{id}")
-    public void updateName(@PathVariable Long id,@RequestBody @Valid NameDto nameDto){
-        profileService.updateNameById(id, nameDto);
+    @PutMapping("/update/{id}/{name}")
+    public void updateName(@PathVariable Long id,@PathVariable String name){
+        profileService.updateNameById(id, name);
     }
 
 }

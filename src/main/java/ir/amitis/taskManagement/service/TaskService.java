@@ -9,19 +9,25 @@ import ir.amitis.taskManagement.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TaskService {
     private final TaskRepository repository;
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void save(TaskSaveDto taskDto)  {
+
         repository.save(Task.taskFromDto(taskDto));
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void delete(Long id) throws RecordNotFoundException {
         Optional<Task> task= Optional.ofNullable(repository.findById(id).orElseThrow(() -> new RecordNotFoundException()));
         if (task.isPresent()){
@@ -31,6 +37,7 @@ public class TaskService {
         }
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void updateDescriptionById(Long id, DescriptionDto descriptionDto) throws RecordNotFoundException {
         Optional<Task> task= Optional.ofNullable(repository.findById(id).orElseThrow(() -> new RecordNotFoundException()));
         if (task.isPresent()) {
@@ -40,6 +47,7 @@ public class TaskService {
         }
     }
 
+    @Transactional(readOnly = true)
     public TaskGetDto getTaskById(Long id) throws RecordNotFoundException {
         var task = repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
         var taskDto = TaskGetDto.taskGetDto(task);
