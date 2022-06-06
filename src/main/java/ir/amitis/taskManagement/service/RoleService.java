@@ -2,7 +2,6 @@ package ir.amitis.taskManagement.service;
 
 import ir.amitis.taskManagement.dto.Ids;
 import ir.amitis.taskManagement.dto.RoleGetDto;
-import ir.amitis.taskManagement.dto.RoleSaveDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.model.Role;
 import ir.amitis.taskManagement.repository.RoleRepository;
@@ -20,12 +19,6 @@ import java.util.List;
 public class RoleService {
 
     private final RoleRepository repository;
-
-    @Transactional
-    public void save(RoleSaveDto roleDto) {
-        repository.save(Role.fromDto(roleDto));
-    }
-
 
     public List<RoleGetDto> getAllRoleById(Ids id) throws RecordNotFoundException {
         List<Role> roles = (List<Role>) repository.findAllById(id.ids());

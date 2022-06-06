@@ -1,5 +1,5 @@
 package ir.amitis.taskManagement.model;
-import ir.amitis.taskManagement.dto.UserSaveDto;
+import ir.amitis.taskManagement.dto.UserPostDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,7 +32,7 @@ public class User {
     private List<Task> tasks;
     private boolean deleted;
 
-    public static User userFromDto(UserSaveDto userDto){
+    public static User userFromDto(UserPostDto userDto){
         User user=new User();
         user.setUsername(userDto.username());
         user.setPassword(userDto.password());

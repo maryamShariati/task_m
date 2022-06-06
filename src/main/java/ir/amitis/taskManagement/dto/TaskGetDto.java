@@ -43,9 +43,6 @@ public record TaskGetDto(
                 this.creatAt = creatAt;
         }
 
-        public static TaskGetDto taskGetDto(Task task){
-                TaskGetDto taskGetDto=new TaskGetDto(task.getName(),task.getSubject(),task.getTaskPriority(),
-                        task.getDescription(),task.getTaskTypes(),task.getCreateAt());
-                return taskGetDto;
-        }
+
+
 }

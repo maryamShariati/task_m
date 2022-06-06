@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/profile")
@@ -23,21 +24,21 @@ public class ProfileController {
     public void save(@RequestBody @Valid ProfileDto profileDto){
         profileService.save(profileDto);
     }
-    @DeleteMapping("/delete/{id}")
-
-    public void deleteById(@PathVariable Long id){
-        profileService.deleteProfileById(id);
-    }
 
 
     @GetMapping
     @ResponseBody
     public List<ProfileDto> getAllProfile() throws RecordNotFoundException {
-        return profileService.getAllProfile();
+        return profileService.getAll().stream()
+                .map(profile -> new ProfileDto(profile.getName(),profile.getSurname()
+                        ,profile.getSex(),profile.getBirthday(),profile.getEmail()
+                        ,profile.getMobileNumber())).collect(Collectors.toList());
+
     }
+
     @GetMapping("/{id}")
     @Validated
-    public ResponseEntity<Profile> getProfileByID(@PathVariable Long id) throws RecordNotFoundException {
+    public ResponseEntity<Profile> getProfileById(@PathVariable Long id) throws RecordNotFoundException {
         Profile profile = profileService.getProfileById( id );
         return ResponseEntity.ok().body( profile );
     }
@@ -46,6 +47,12 @@ public class ProfileController {
     public void updateName(@PathVariable Long id,@PathVariable String name){
         profileService.updateNameById(id, name);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteById(@PathVariable Long id){
+        profileService.deleteProfileById(id);
+    }
+
 
 }
 

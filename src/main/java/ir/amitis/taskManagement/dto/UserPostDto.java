@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-public record UserSaveDto(
+public record UserPostDto(
         @NotBlank
         @Min(4)
         @JsonProperty("username")String username,

@@ -1,6 +1,6 @@
 package ir.amitis.taskManagement.model;
 
-import ir.amitis.taskManagement.dto.RoleSaveDto;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,16 +28,6 @@ public class Role {
 
     @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     private List<UserRole> userRole;
-
-
-
-    public static Role fromDto(RoleSaveDto roleDto){
-        Role role=new Role();
-        role.setMain(roleDto.main());
-        role.setCategory(roleDto.category());
-        role.setName(roleDto.name());
-        return role;
-    }
 
 
     @Override

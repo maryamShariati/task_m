@@ -26,25 +26,30 @@ public class ProfileService {
     }
 
 
-    @Transactional(readOnly = true)
-    public List<ProfileDto> getAllProfile() throws RecordNotFoundException {
-        List<Profile> profileList= (List<Profile>) profileRepository.findAll();
-        if (!profileList.isEmpty()){
-            List<ProfileDto> profileDto=new ArrayList<>();
-            profileList.forEach(profile->profileDto.add(ProfileDto.profileDto(profile)));
-            return profileDto;
-        }
-        throw new RecordNotFoundException();
-    }
+//
 //    @Transactional(readOnly = true)
-//    public List<Profile>getAll(){
-//        return (List<Profile>)profileRepository.findAll();
+//    public List<ProfileDto> getAllProfile() throws RecordNotFoundException {
+//        List<Profile> profileList= (List<Profile>) profileRepository.findAll();
+//        if (!profileList.isEmpty()){
+//            List<ProfileDto> profileDto=new ArrayList<>();
+//            profileList.forEach(profile->profileDto.add(ProfileDto.profileDto(profile)));
+//            return profileDto;
+//        }
+//        throw new RecordNotFoundException();
 //    }
+
+    @Transactional(readOnly = true)
+    public List<Profile>getAll(){
+        return (List<Profile>)profileRepository.findAll();
+    }
+
+
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Profile getProfileById(Long id) throws RecordNotFoundException {
         return profileRepository.findById( id ).orElseThrow( () -> new RecordNotFoundException( id ) );
 
     }
+
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void updateNameById(Long id, String name){
         Optional<Profile> task=profileRepository.findById(id);

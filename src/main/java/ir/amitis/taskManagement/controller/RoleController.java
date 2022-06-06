@@ -2,7 +2,6 @@ package ir.amitis.taskManagement.controller;
 
 import ir.amitis.taskManagement.dto.Ids;
 import ir.amitis.taskManagement.dto.RoleGetDto;
-import ir.amitis.taskManagement.dto.RoleSaveDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleController {
     private final RoleService roleService;
-
-    @PostMapping
-    public void save(@RequestBody @Valid RoleSaveDto roleDto) {
-        roleService.save(roleDto);
-    }
 
     @GetMapping
     @ResponseBody
