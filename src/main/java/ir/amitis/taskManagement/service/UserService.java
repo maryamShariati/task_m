@@ -36,7 +36,7 @@ public class UserService {
     @Transactional(isolation =Isolation.REPEATABLE_READ )
     public void updatePassword(Long id, String newPassword) throws RecordNotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
-        user.setPassword(newPassword.password());
+        user.setPassword(newPassword);
         userRepository.save(user);
     }
 

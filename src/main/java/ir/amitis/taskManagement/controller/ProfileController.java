@@ -38,9 +38,12 @@ public class ProfileController {
 
     @GetMapping("/{id}")
     @Validated
-    public ResponseEntity<Profile> getProfileById(@PathVariable Long id) throws RecordNotFoundException {
-        Profile profile = profileService.getProfileById( id );
-        return ResponseEntity.ok().body( profile );
+    public ResponseEntity<ProfileDto> getProfileById(@PathVariable Long id) throws RecordNotFoundException {
+        var prof=profileService.getProfileById(id);
+        ProfileDto profileDto=new ProfileDto(prof.getName()
+        ,prof.getSurname(),prof.getSex(),prof.getBirthday()
+        ,prof.getEmail(),prof.getMobileNumber());
+        return ResponseEntity.ok().body(profileDto);
     }
 
     @PutMapping("/update/{id}/{name}")

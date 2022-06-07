@@ -30,10 +30,9 @@ public class RoleController {
     @GetMapping("/{id}")
     @ResponseBody
     public RoleGetDto getRoleById(@PathVariable Long id)throws RecordNotFoundException{
-       return roleService.getById(id);
+     var role= roleService.getById(id);
+        return new RoleGetDto(role.name());
     }
-
-
 
     @PatchMapping("/{id}/{roleName}")
     @Validated

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -31,9 +32,13 @@ public class TaskController {
 
     @GetMapping("/get/{id}")
     @ResponseBody
-    public ResponseEntity<Task> getTaskById(@PathVariable Long id) throws RecordNotFoundException {
-        Task task = service.getTaskById(id);
-        return ResponseEntity.ok().body(task);
+    public ResponseEntity<TaskGetDto> getTaskById(@PathVariable Long id) throws RecordNotFoundException {
+        var task = service.getTaskById(id);
+        TaskGetDto taskGetDto = new TaskGetDto(task.getName(), task.getSubject()
+        , task.getTaskPriority(),task.getDescription(), task.getTaskTypes()
+        , task.getCreateAt());
+        return ResponseEntity.ok().body(taskGetDto);
+
     }
 
     @GetMapping("/get")
@@ -52,23 +57,20 @@ public class TaskController {
         var creatAt = income.get("creatAt");
         return service.getTaskByCreatAtAndUsername((LocalDateTime) creatAt, (String) username).stream()
                 .map(task -> new TaskGetDto(task.getName(), task.getSubject(), task.getTaskPriority()
-                        , task.getDescription(), task.getTaskTypes(), task.getCreateAt())).collect(Collectors.toList());
+                , task.getDescription(), task.getTaskTypes(), task.getCreateAt())).collect(Collectors.toList());
     }
 
 
     @PutMapping("/update/{id}")
-    public void updateDescription(@PathVariable Long id, @RequestParam String description)
-            throws RecordNotFoundException {
-        service.updateDescriptionById(id, description);
+    public void updateDescription(@PathVariable Long id, @RequestBody Map<String, String> description)
+        throws RecordNotFoundException {
+        service.updateDescriptionById(id,description.get("description"));
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable Long id) throws RecordNotFoundException {
         service.delete(id);
     }
-
-
-
 
 
 }

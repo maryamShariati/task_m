@@ -32,11 +32,13 @@ public class TaskService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<Task> getTaskByUsername(String username) {
         return repository.findTaskByUser_Username(username);
     }
 
 
+    @Transactional(readOnly = true)
     public List<Task> getTaskByCreatAtAndUsername(LocalDateTime createAt, String username) {
         return repository.getTaskByCreatAtAndUsername(createAt, username);
     }
@@ -52,11 +54,11 @@ public class TaskService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public void updateDescriptionById(Long id, String descriptionDto) throws RecordNotFoundException {
+    public void updateDescriptionById(Long id, String description) throws RecordNotFoundException {
         Optional<Task> task = Optional.ofNullable(repository.findById(id).orElseThrow(() -> new RecordNotFoundException()));
         if (task.isPresent()) {
             var update = task.get();
-            update.setDescription(String.valueOf(descriptionDto));
+            update.setDescription(String.valueOf(description));
             repository.save(update);
         }
     }
