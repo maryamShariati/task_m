@@ -8,6 +8,7 @@ import ir.amitis.taskManagement.model.Task;
 import ir.amitis.taskManagement.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class TaskController {
 
     @GetMapping("/get/{id}")
     @ResponseBody
+    @Secured("ROLE_GET_TASK")
     public ResponseEntity<TaskGetDto> getTaskById(@PathVariable Long id) throws RecordNotFoundException {
         var task = service.getTaskById(id);
         TaskGetDto taskGetDto = new TaskGetDto(task.getName(), task.getSubject()
@@ -43,6 +45,7 @@ public class TaskController {
 
     @GetMapping("/get")
     @ResponseBody
+    @Secured("ROLE_GET_TASK")
     @Validated
     public List<TaskGetDto> getTaskByUsername(@RequestParam(name = "username") @NotBlank String username) {
         return service.getTaskByUsername(username).stream().map(name -> new TaskGetDto(name.getName()
@@ -51,7 +54,9 @@ public class TaskController {
     }
 
 
-    @GetMapping
+    @GetMapping("/get")
+    @Secured("ROLE_GET_TASK")
+
     public List<TaskGetDto> getTaskByCreatAtAndUsername(@RequestBody Map<String, Object> income) {
         var username = income.get("username");
         var creatAt = income.get("creatAt");
@@ -62,12 +67,14 @@ public class TaskController {
 
 
     @PutMapping("/update/{id}")
+    @Secured("ROLE_UPDATE")
     public void updateDescription(@PathVariable Long id, @RequestBody Map<String, String> description)
         throws RecordNotFoundException {
         service.updateDescriptionById(id,description.get("description"));
     }
 
     @DeleteMapping("/delete/{id}")
+    @Secured("ROLE_DELETE_TASK")
     public void deleteById(@PathVariable Long id) throws RecordNotFoundException {
         service.delete(id);
     }

@@ -7,6 +7,8 @@ import ir.amitis.taskManagement.model.Profile;
 import ir.amitis.taskManagement.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +28,8 @@ public class ProfileController {
     }
 
 
-    @GetMapping
+    @GetMapping("/get")
+    @Secured("ROLE_ADMIN")
     @ResponseBody
     public List<ProfileDto> getAllProfile() throws RecordNotFoundException {
         return profileService.getAll().stream()
@@ -36,7 +39,8 @@ public class ProfileController {
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
+    @Secured("ROLE_GET_PROFILE")
     @Validated
     public ResponseEntity<ProfileDto> getProfileById(@PathVariable Long id) throws RecordNotFoundException {
         var prof=profileService.getProfileById(id);
@@ -46,12 +50,24 @@ public class ProfileController {
         return ResponseEntity.ok().body(profileDto);
     }
 
+    @GetMapping("/get/byUsername")
+    @Secured("ROLE_GET_PROFILE")
+    @ResponseBody
+    public ProfileDto getProfileByUsername() throws RecordNotFoundException {
+        var profile = profileService.getProfileByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return new ProfileDto(profile.getName(), profile.getSurname(), profile.getSex()
+                , profile.getBirthday(), profile.getEmail(), profile.getMobileNumber());
+    }
+
+
     @PutMapping("/update/{id}/{name}")
+    @Secured("ROLE_UPDATE_PROFILE")
     public void updateName(@PathVariable Long id,@PathVariable String name){
         profileService.updateNameById(id, name);
     }
 
     @DeleteMapping("/delete/{id}")
+    @Secured("ROLE_DELETE_PROFILE")
     public void deleteById(@PathVariable Long id){
         profileService.deleteProfileById(id);
     }

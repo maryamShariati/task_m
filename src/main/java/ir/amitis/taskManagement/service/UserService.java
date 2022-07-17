@@ -6,6 +6,9 @@ import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.model.User;
 import ir.amitis.taskManagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserService {
+public class UserService  implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -31,8 +34,6 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(RecordNotFoundException::new);
     }
 
-
-
     @Transactional(isolation =Isolation.REPEATABLE_READ )
     public void updatePassword(Long id, String newPassword) throws RecordNotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
@@ -40,7 +41,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void deleteById(Long id)throws RecordNotFoundException {
         User user =userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
         user.setDeleted(true);
@@ -48,8 +49,10 @@ public class UserService {
     }
 
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsernameAndDeletedIsFalse(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Invalid credential"));
 
-
-
-
+    }
 }

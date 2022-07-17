@@ -6,6 +6,7 @@ import ir.amitis.taskManagement.dto.UserPostDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,18 +21,20 @@ import java.util.stream.Collectors;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/register")
     public void save(@RequestBody @Valid UserPostDto userDto){
         userService.save(userDto);
     }
 
     @GetMapping
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public List<UserGetDto>getAllUser(){
         return userService.getAllUser().stream().map(user -> new UserGetDto(user.getUsername())).collect(Collectors.toList());
     }
     @GetMapping("/{id}")
     @ResponseBody
+    @Secured("ROLE_GET_USER")
     public UserGetDto getById(@PathVariable Long id) throws RecordNotFoundException {
         return new UserGetDto(userService.getById(id).getUsername());
     }
@@ -40,12 +43,14 @@ public class UserController {
 
 
     @PatchMapping("/{id}")
+    @Secured("ROLE_UPDATE_USER")
     public void updatePassword(@PathVariable Long id, @RequestParam     @Min(8) String newPassword)
             throws RecordNotFoundException {
         userService.updatePassword(id,newPassword );
     }
 
     @DeleteMapping("/delete/{id}")
+    @Secured("ROLE_DELETE_USER")
     public void deleteByIId(@PathVariable Long id) throws RecordNotFoundException {
         userService.deleteById(id);
     }

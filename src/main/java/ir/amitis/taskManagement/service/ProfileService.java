@@ -39,7 +39,7 @@ public class ProfileService {
 //    }
 
     @Transactional(readOnly = true)
-    public List<Profile>getAll(){
+    public List<Profile>getAll()throws RecordNotFoundException{
         return (List<Profile>)profileRepository.findAll();
     }
 
@@ -48,6 +48,10 @@ public class ProfileService {
     public Profile getProfileById(Long id) throws RecordNotFoundException {
         return profileRepository.findById( id ).orElseThrow( () -> new RecordNotFoundException( id ) );
 
+    }
+
+    public Profile getProfileByUsername(String username) throws RecordNotFoundException {
+        return profileRepository.findProfileByUsername(username).orElseThrow(RecordNotFoundException::new);
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
@@ -68,7 +72,5 @@ public class ProfileService {
             profileRepository.save(prof);
         }
     }
-
-
 
 }

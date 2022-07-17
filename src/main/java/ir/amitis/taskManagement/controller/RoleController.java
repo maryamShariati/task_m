@@ -5,6 +5,7 @@ import ir.amitis.taskManagement.dto.RoleGetDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ public class RoleController {
 
     @PatchMapping("/{id}/{roleName}")
     @Validated
+    @Secured("ROLE_UPDATE_ROLE")
     public void updateRoleName(@PathVariable @Positive Long id, @PathVariable @NotNull @NotBlank String roleName) throws RecordNotFoundException {
         roleService.updateRoleName(id, roleName);
     }

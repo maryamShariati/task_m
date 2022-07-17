@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User,Long> {
 
     Optional<User> findByIdAndDeletedFalse(Long id);
+    Optional<User> findByUsernameAndDeletedIsFalse(String username);
+
 }
