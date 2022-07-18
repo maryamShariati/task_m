@@ -1,7 +1,6 @@
 package ir.amitis.taskManagement.repository;
 
 import ir.amitis.taskManagement.model.Task;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +12,7 @@ import java.util.List;
 public interface TaskRepository extends CrudRepository<Task,Long> {
 
 
-    List<Task>findTaskByUser_Username(String username);
+    List<Task> findTaskByUser_Username(String username);
 
-    List<Task>getTaskByCreatAtAndUsername(LocalDateTime createAt,String username);
+    List<Task> getTaskByCreateAtAndName(LocalDateTime createAt, String name);
 }

@@ -7,6 +7,8 @@ import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +31,7 @@ public class UserController {
     @GetMapping
     @ResponseBody
     @Secured("ROLE_ADMIN")
-    public List<UserGetDto>getAllUser(){
+    public List<UserGetDto> getAllUser(){
         return userService.getAllUser().stream().map(user -> new UserGetDto(user.getUsername())).collect(Collectors.toList());
     }
     @GetMapping("/{id}")
@@ -50,7 +52,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @Secured("ROLE_DELETE_USER")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
+//    @Secured("ROLE_DELETE_USER")
     public void deleteByIId(@PathVariable Long id) throws RecordNotFoundException {
         userService.deleteById(id);
     }

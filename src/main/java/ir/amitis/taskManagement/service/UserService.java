@@ -9,21 +9,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService  implements UserDetailsService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void save(UserPostDto userDto){
-        userRepository.save(User.userFromDto(userDto));
+        String encode = passwordEncoder.encode(userDto.password());
+        User user = new User();
+        user.setUsername(userDto.username());
+        user.setPassword(encode);
+        userRepository.save(user);
     }
 
     public List<User> getAllUser(){
@@ -46,6 +53,10 @@ public class UserService  implements UserDetailsService {
         User user =userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
         user.setDeleted(true);
         userRepository.save(user);
+    }
+
+    public Optional<User> getByUsername(String username) {
+        return Optional.empty();
     }
 
 

@@ -25,7 +25,7 @@ public class User implements UserDetails {
     @Column(nullable = false,unique = true,columnDefinition = "varchar(30)")
     private String username;
 
-    @Column(nullable = false,columnDefinition = "varchar(30)")
+    @Column(nullable = false,columnDefinition = "varchar(255)")
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)

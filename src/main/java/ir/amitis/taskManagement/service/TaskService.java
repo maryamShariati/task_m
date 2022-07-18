@@ -38,7 +38,7 @@ public class TaskService {
 
     @Transactional(readOnly = true)
     public List<Task> getTaskByCreatAtAndUsername(LocalDateTime createAt, String username) {
-        return repository.getTaskByCreatAtAndUsername(createAt, username);
+        return repository.getTaskByCreateAtAndName(createAt, username);
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)

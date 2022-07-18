@@ -43,7 +43,7 @@ public class TaskController {
 
     }
 
-    @GetMapping("/get")
+    @GetMapping("/by-username")
     @ResponseBody
     @Secured("ROLE_GET_TASK")
     @Validated
@@ -54,9 +54,8 @@ public class TaskController {
     }
 
 
-    @GetMapping("/get")
+    @GetMapping("/get-by-create")
     @Secured("ROLE_GET_TASK")
-
     public List<TaskGetDto> getTaskByCreatAtAndUsername(@RequestBody Map<String, Object> income) {
         var username = income.get("username");
         var creatAt = income.get("creatAt");
