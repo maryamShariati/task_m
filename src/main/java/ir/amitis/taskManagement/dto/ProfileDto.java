@@ -11,10 +11,10 @@ import java.util.Date;
 public record ProfileDto(
         @NotBlank
         @NotNull
-        @Min(3)
+        @Size(min = 3)
         @JsonProperty("name")String name,
         @NotBlank
-        @Min(3)
+        @Size(min = 3)
         @JsonProperty("surname")String surname,
         @NotBlank
         @JsonProperty("sex") Sex sex,

@@ -6,10 +6,11 @@ import ir.amitis.taskManagement.model.User;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public record UserGetDto(@NotBlank
                          @NotNull
-                         @Min(4)
+                        @Size(min = 4)
                          @JsonProperty("username") String username) {
 
     public UserGetDto(String username) {
