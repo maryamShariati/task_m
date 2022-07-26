@@ -5,6 +5,7 @@ import ir.amitis.taskManagement.dto.RoleGetDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleController {
     private final RoleService roleService;
+
+    @PostMapping("/addRole")
+    public void addRole(String username,List<String>roleName){
+         roleService.addRole(username,roleName);
+
+    }
 
     @GetMapping
     @ResponseBody
