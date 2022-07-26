@@ -4,15 +4,14 @@ import ir.amitis.taskManagement.dto.Ids;
 import ir.amitis.taskManagement.dto.RoleGetDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
 import ir.amitis.taskManagement.model.Role;
-import ir.amitis.taskManagement.model.User;
 import ir.amitis.taskManagement.model.UserRole;
 import ir.amitis.taskManagement.repository.RoleRepository;
 import ir.amitis.taskManagement.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +50,7 @@ public class RoleService {
     /**
      * in: userId: 1, role names: ADMIN, USER
      * q: select * from role where name in ('ADMIN', 'USER')
+     * @return
      */
 
     public void addRole(String username, List<String> roleNames) {
