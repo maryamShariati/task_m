@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @Column(nullable = false,columnDefinition = "varchar(255)")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany( mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<UserRole>userRoles;
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)

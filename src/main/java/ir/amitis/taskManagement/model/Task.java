@@ -32,7 +32,7 @@ public class Task {
     @ElementCollection
     private List<TaskType> taskTypes;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false ,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
 

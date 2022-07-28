@@ -33,7 +33,7 @@ public class Profile {
     private String MobileNumber;
     private boolean deleted;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false , cascade = CascadeType.ALL)
     private User user;
 
 

@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 public record RoleGetDto(
         @NotBlank
-        @NotNull
         @JsonProperty("name")
         String name
 ) {

@@ -15,14 +15,10 @@ import java.util.List;
 
 public record TaskGetDto(
         @NotBlank
-        @NotNull
         @JsonProperty("name")String name,
         @NotBlank
-        @NotNull
         @JsonProperty("subject")String subject,
-        @NotNull
         @JsonProperty("priority") Priority priority,
-        @NotNull
         @NotBlank
         @JsonProperty("description") String description,
 
