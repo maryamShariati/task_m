@@ -3,6 +3,7 @@ package ir.amitis.taskManagement.service;
 
 import ir.amitis.taskManagement.dto.UserPostDto;
 import ir.amitis.taskManagement.exception.RecordNotFoundException;
+import ir.amitis.taskManagement.model.Profile;
 import ir.amitis.taskManagement.model.User;
 import ir.amitis.taskManagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,15 +31,24 @@ public class UserService  implements UserDetailsService {
         User user = new User();
         user.setUsername(userDto.username());
         user.setPassword(encode);
+        Profile profile=new Profile();
+        profile.setUser(user);
         userRepository.save(user);
+
     }
 
+    @Transactional(isolation=Isolation.READ_COMMITTED,readOnly = true)
     public List<User> getAllUser(){
         return (List<User>) userRepository.findAll();
     }
 
     public User getById(Long id) throws RecordNotFoundException {
         return userRepository.findById(id).orElseThrow(RecordNotFoundException::new);
+    }
+
+    @Transactional(isolation=Isolation.READ_COMMITTED,readOnly = true)
+    public Optional<User> getByUsername(String username){
+        return userRepository.findByUsernameAndDeletedIsFalse(username);
     }
 
     @Transactional(isolation =Isolation.REPEATABLE_READ )
@@ -53,10 +63,6 @@ public class UserService  implements UserDetailsService {
         User user =userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
         user.setDeleted(true);
         userRepository.save(user);
-    }
-
-    public Optional<User> getByUsername(String username) {
-        return Optional.empty();
     }
 
 

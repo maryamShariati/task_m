@@ -3,6 +3,7 @@ package ir.amitis.taskManagement.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime creatAt;
 
     @ManyToOne(optional = false)

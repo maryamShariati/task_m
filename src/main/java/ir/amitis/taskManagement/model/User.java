@@ -22,13 +22,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(nullable = false,unique = true,columnDefinition = "varchar(30)")
+    @Column(nullable = false,unique = true)
     private String username;
 
-    @Column(nullable = false,columnDefinition = "varchar(255)")
+    @Column(nullable = false)
     private String password;
 
-    @OneToMany( mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private boolean deleted;
+    private boolean locked;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<UserRole>userRoles;
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -36,12 +39,12 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Task> tasks;
-    private boolean deleted;
 
-    public static User userFromDto(UserPostDto userDto){
+
+    public static User userFromDto(UserPostDto userPostDto){
         User user=new User();
-        user.setUsername(userDto.username());
-        user.setPassword(userDto.password());
+        user.setUsername(userPostDto.username());
+        user.setPassword(userPostDto.password());
         return user;
     }
 
@@ -105,3 +108,4 @@ public class User implements UserDetails {
         return username;
     }
 }
+

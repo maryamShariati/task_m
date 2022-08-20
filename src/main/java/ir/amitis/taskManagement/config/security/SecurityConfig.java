@@ -25,14 +25,10 @@ import javax.servlet.http.HttpServletResponse;
         prePostEnabled = true
 )
 @RequiredArgsConstructor
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     private final UserService userService;
     private final JwtTokenFilter jwtTokenFilter;
-
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

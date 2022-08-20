@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 @Component
 @RequiredArgsConstructor
 public class JwtTokenUtil {

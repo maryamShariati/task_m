@@ -15,11 +15,15 @@ public record TaskSaveDto(
         @JsonProperty("name")String name,
         @NotBlank
         @JsonProperty("subject")String subject,
-        @JsonProperty("priority")Priority priority,
         @NotBlank
+        @JsonProperty("priority")Priority priority,
+
         @JsonProperty("description") String description,
 
         @NotEmpty
-        @JsonProperty("type")List<TaskType> types
+        @JsonProperty("type")List<TaskType> types,
+
+        @NotBlank
+        @JsonProperty("owner") String username
         ) {
 }

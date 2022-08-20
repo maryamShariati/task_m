@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -14,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Size(min=1)
     private Long id;
 
     @Column(nullable = false)
@@ -28,6 +30,14 @@ public class Role {
 
     @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "role")
     private List<UserRole> userRole;
+
+
+    public Role(int id, String name, String category, String main) {
+        this.id = (long) id;
+        this.name = name;
+        this.category = category;
+        this.main = main;
+    }
 
 
     @Override

@@ -8,9 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public record UserGetDto(@NotBlank
-                         @NotNull
-                        @Size(min = 4)
+public record UserGetDto(
+                         @Size(min = 4)
                          @JsonProperty("username") String username) {
 
     public UserGetDto(String username) {

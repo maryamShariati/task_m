@@ -27,7 +27,7 @@ public class TaskController {
     private final TaskService service;
 
     @PostMapping("")
-    public void save(@RequestBody @Valid TaskSaveDto taskDto) {
+    public void save(@RequestBody @Valid TaskSaveDto taskDto)throws RecordNotFoundException  {
         service.save(taskDto);
     }
 

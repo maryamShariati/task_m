@@ -4,7 +4,6 @@ import ir.amitis.taskManagement.dto.ProfileDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,37 +15,18 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
-    @Column(nullable = false,columnDefinition = "varchar(25)")
     private String name;
-
-    @Column(nullable = false,columnDefinition = "varchar(25)")
     private String surname;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Sex sex;
     private String email;
-    @Column(nullable = false)
     private Date birthday;
-    @Column(columnDefinition = "varchar(11)")
     private String MobileNumber;
     private boolean deleted;
 
-    @OneToOne(optional = false , cascade = CascadeType.ALL)
+    @OneToOne(optional = false )
     private User user;
-
-
-
-    public static Profile profileFromDto(ProfileDto profileDto){
-        Profile profile=new Profile();
-        profile.setName(profileDto.name());
-        profile.setSurname(profileDto.surname());
-        profile.setSex((profileDto.sex()));
-        profile.setBirthday(profileDto.birthday());
-        return profile;
-    }
-
 
     @Override
     public boolean equals(Object object){

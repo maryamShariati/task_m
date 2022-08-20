@@ -39,7 +39,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        UserDetails userDetails = (UserDetails) userRepository
+        UserDetails userDetails = userRepository
                 .findByUsernameAndDeletedIsFalse(jwtTokenUtil.getUsername(token))
                 .orElse(null);
 

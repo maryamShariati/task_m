@@ -14,18 +14,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record TaskGetDto(
-        @NotBlank
+
         @JsonProperty("name")String name,
-        @NotBlank
         @JsonProperty("subject")String subject,
         @JsonProperty("priority") Priority priority,
-        @NotBlank
         @JsonProperty("description") String description,
-
-        @NotEmpty
         @JsonProperty("type") List<TaskType> types,
 
-        @FutureOrPresent
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
         @JsonProperty("creatAt") LocalDateTime creatAt
 ) {
@@ -38,7 +33,4 @@ public record TaskGetDto(
                 this.types = types;
                 this.creatAt = creatAt;
         }
-
-
-
 }

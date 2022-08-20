@@ -2,6 +2,9 @@ package ir.amitis.taskManagement.model;
 
 import ir.amitis.taskManagement.dto.TaskSaveDto;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,34 +20,38 @@ public class Task {
     private Long id;
     @Column(nullable = false,columnDefinition = "varchar(50)")
     private String name;
-    @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime createAt;
+    @UpdateTimestamp
     private LocalDateTime updateAt;
     private LocalDateTime deleteAt;
     private LocalDateTime done;
     @Column(nullable = false)
     private String subject;
+
     @Enumerated(EnumType.STRING)
     private Priority taskPriority;
+
     @Column(columnDefinition="text")
     private String description;
+
     @Enumerated(EnumType.STRING)
     @ElementCollection
     private List<TaskType> taskTypes;
 
-    @ManyToOne(optional = false ,cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false )
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
 
 
-    public static Task taskFromDto(TaskSaveDto taskDto){
+    public static Task taskFromDto(TaskSaveDto taskDto ,User user){
         Task task=new Task();
         task.setName(taskDto.name());
-        task.setSubject(task.subject);
+        task.setSubject(taskDto.subject());
         task.setTaskPriority(taskDto.priority());
         task.setDescription(taskDto.description());
         task.setTaskTypes(taskDto.types());
-        task.setCreateAt(LocalDateTime.now());
+        task.setUser(user);
         return task;
     };
 

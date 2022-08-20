@@ -30,7 +30,7 @@ public class UserController {
 
     @GetMapping
     @ResponseBody
-    @Secured("ROLE_ADMIN")
+    @Secured("ROLE_GET_USER")
     public List<UserGetDto> getAllUser(){
         return userService.getAllUser().stream().map(user -> new UserGetDto(user.getUsername())).collect(Collectors.toList());
     }
@@ -42,8 +42,6 @@ public class UserController {
     }
 
 
-
-
     @PatchMapping("/{id}")
     @Secured("ROLE_UPDATE_USER")
     public void updatePassword(@PathVariable Long id, @RequestParam     @Min(8) String newPassword)
@@ -52,7 +50,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_DELETE_USER')")
 //    @Secured("ROLE_DELETE_USER")
     public void deleteByIId(@PathVariable Long id) throws RecordNotFoundException {
         userService.deleteById(id);

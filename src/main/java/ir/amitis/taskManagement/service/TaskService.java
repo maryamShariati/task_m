@@ -17,11 +17,12 @@ import java.util.Optional;
 @Transactional
 public class TaskService {
     private final TaskRepository repository;
+    private final UserService userService;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void save(TaskSaveDto taskDto) {
-
-        repository.save(Task.taskFromDto(taskDto));
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void save(TaskSaveDto taskDto)throws RecordNotFoundException {
+        var user = userService.getByUsername(taskDto.username()).orElseThrow(RecordNotFoundException::new);
+        repository.save(Task.taskFromDto(taskDto,user));
     }
 
     @Transactional(readOnly = true)
