@@ -4,7 +4,7 @@ public enum Priority {
     LOW(1),MEDIUM(2),HIGH(3),HIGHEST(4);;
 
 
-    private int label;
+    private final int label;
 
     Priority(int label) {
         this.label = label;

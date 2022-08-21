@@ -1,4 +1,5 @@
 package ir.amitis.taskManagement.model;
+
 import ir.amitis.taskManagement.dto.UserPostDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true, updatable = false)
     private String username;
 
     @Column(nullable = false)
@@ -31,37 +32,37 @@ public class User implements UserDetails {
     private boolean deleted;
     private boolean locked;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<UserRole>userRoles;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserRole> userRoles;
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Profile profile;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Task> tasks;
 
 
-    public static User userFromDto(UserPostDto userPostDto){
-        User user=new User();
+    public static User userFromDto(UserPostDto userPostDto) {
+        User user = new User();
         user.setUsername(userPostDto.username());
         user.setPassword(userPostDto.password());
         return user;
     }
 
 
-
     @Override
-    public boolean equals(Object object){
-        if (object==null ||this.getClass() != object.getClass()){
-            return false;
-        }
-        if (this.getId() != null){
-            User user= (User) object;
-            return this.getId().equals(user.getId());
-        }else {
+    public boolean equals(Object object) {
+        if (object == null || this.getClass() != object.getClass()) {
             return false;
         }
 
+        User user = (User) object;
+
+        if (this.getId() != null && user.getId() != null) {
+            return this.getId().equals(user.getId());
+        } else {
+            return this.getUsername().equals(user.getUsername());
+        }
     }
 
     @Override
@@ -84,20 +85,25 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {return !deleted;
+    public boolean isAccountNonExpired() {
+        return !deleted;
     }
 
     @Override
-    public boolean isAccountNonLocked() {return !deleted;
+    public boolean isAccountNonLocked() {
+        return !deleted;
     }
 
     @Override
-    public boolean isCredentialsNonExpired() {return !deleted;
+    public boolean isCredentialsNonExpired() {
+        return !deleted;
     }
 
     @Override
-    public boolean isEnabled() {return !deleted;
+    public boolean isEnabled() {
+        return !deleted;
     }
+
     @Override
     public String getPassword() {
         return password;

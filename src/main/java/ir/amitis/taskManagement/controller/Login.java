@@ -1,4 +1,4 @@
-package ir.amitis.taskManagement.controller.Login;
+package ir.amitis.taskManagement.controller;
 
 
 import ir.amitis.taskManagement.config.security.JwtTokenUtil;
@@ -26,15 +26,12 @@ public class Login {
     private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("login")
-    @MethodDurationLog
     public ResponseEntity<Object> login(@RequestBody @Valid UserPostDto request) {
         try {
-            Authentication authenticate = authenticationManager
+            authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
-            User user = (User) authenticate.getPrincipal();
-
-            return ResponseEntity.accepted().body(jwtTokenUtil.generateAccessToken(user));
+            return ResponseEntity.accepted().body(jwtTokenUtil.generateAccessToken(request.username()));
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

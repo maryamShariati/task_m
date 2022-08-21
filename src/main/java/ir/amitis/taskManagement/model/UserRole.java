@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class UserRole {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -21,7 +20,7 @@ public class UserRole {
     @CreationTimestamp
     private LocalDateTime creatAt;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
 

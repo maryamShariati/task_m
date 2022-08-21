@@ -15,10 +15,10 @@ public class JwtTokenUtil {
 
     private final String jwtKey = "qsc#wdv#54321*efb#@#rgNthn#*#236#UK,opl";
 
-    public String generateAccessToken(User user) {
+    public String generateAccessToken(String username) {
         var issuer = "example.io";
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(username)
                 .setIssuer(issuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 2 * 24 * 60 * 60 * 1000))

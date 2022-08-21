@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Entity
 @Setter
 @Getter
@@ -39,7 +38,7 @@ public class Task {
     @ElementCollection
     private List<TaskType> taskTypes;
 
-    @ManyToOne(optional = false )
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
 

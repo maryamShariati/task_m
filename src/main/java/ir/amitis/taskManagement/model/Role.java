@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Role {
     @Id
-    @Size(min=1)
+    @Min(value = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -28,7 +28,7 @@ public class Role {
     @Column(nullable = false)
     private String main;
 
-    @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "role")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "role")
     private List<UserRole> userRole;
 
 

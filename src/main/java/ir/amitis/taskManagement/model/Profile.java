@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -22,10 +24,10 @@ public class Profile {
     private Sex sex;
     private String email;
     private Date birthday;
-    private String MobileNumber;
+    private String mobileNumber;
     private boolean deleted;
 
-    @OneToOne(optional = false )
+    @OneToOne(optional = false, mappedBy = "profile")
     private User user;
 
     @Override

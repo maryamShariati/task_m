@@ -32,9 +32,8 @@ public class UserService  implements UserDetailsService {
         user.setUsername(userDto.username());
         user.setPassword(encode);
         Profile profile=new Profile();
-        profile.setUser(user);
+        user.setProfile(profile);
         userRepository.save(user);
-
     }
 
     @Transactional(isolation=Isolation.READ_COMMITTED,readOnly = true)
